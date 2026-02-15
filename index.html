@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUNEO: Cuneiform Sign Reference</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Cuneiform&display=swap');
+
+  :root {
+    --clay: #e8d5b7;
+    --clay-deep: #d4ba8f;
+    --clay-shadow: #b89a6a;
+    --tablet-bg: #f0e4cc;
+    --ink: #2c1810;
+    --ink-soft: #5a3d2b;
+    --ink-faint: #8b7355;
+    --wedge: #3d2b1a;
+    --accent: #8b4513;
+    --accent-light: #a0522d;
+    --divider: #c4a882;
+    --batch1: #6b4423;
+    --batch2: #4a6741;
+    --batch3: #4a4a6b;
+    --batch4: #6b4a6b;
+    --batch5: #2e6b6b;
+    --batch6: #6b5a2e;
+    --batch7: #8b3a3a;
+    --bg: #faf6ee;
+    --card-bg: #fffbf3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Crimson Pro', Georgia, serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: linear-gradient(180deg, #2c1810 0%, #4a3020 100%);
+    color: var(--clay);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '𒀭 𒆠 𒀀 𒌓 𒈗 𒊺 𒆳 𒅗';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Noto Sans Cuneiform', serif;
+    font-size: 8rem;
+    opacity: 0.04;
+    white-space: nowrap;
+    letter-spacing: 1rem;
+    pointer-events: none;
+  }
+
+  .header h1 {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-weight: 300;
+    font-size: 2.4rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .header .subtitle {
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.1rem;
+    opacity: 0.7;
+    letter-spacing: 0.05em;
+  }
+
+  .header .sign-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    opacity: 0.5;
+    margin-top: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  .nav {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 1rem 1.5rem;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--divider);
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-decoration: none;
+    color: var(--ink-soft);
+    padding: 0.35rem 0.7rem;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .nav a:hover {
+    border-color: var(--divider);
+    background: var(--tablet-bg);
+  }
+
+  .nav a.b1 { border-left: 3px solid var(--batch1); }
+  .nav a.b2 { border-left: 3px solid var(--batch2); }
+  .nav a.b3 { border-left: 3px solid var(--batch3); }
+  .nav a.b4 { border-left: 3px solid var(--batch4); }
+  .nav a.b5 { border-left: 3px solid var(--batch5); }
+  .nav a.b6 { border-left: 3px solid var(--batch6); }
+  .nav a.b7 { border-left: 3px solid var(--batch7); }
+
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .batch-header {
+    margin: 3rem 0 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid var(--divider);
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .batch-header:first-child { margin-top: 1rem; }
+
+  .batch-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .batch-number.b1 { background: var(--batch1); }
+  .batch-number.b2 { background: var(--batch2); }
+  .batch-number.b3 { background: var(--batch3); }
+  .batch-number.b4 { background: var(--batch4); }
+  .batch-number.b5 { background: var(--batch5); }
+  .batch-number.b6 { background: var(--batch6); }
+  .batch-number.b7 { background: var(--batch7); }
+
+  .batch-title {
+    font-weight: 300;
+    font-size: 1.5rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.03em;
+  }
+
+  .batch-desc {
+    font-style: italic;
+    font-weight: 300;
+    font-size: 0.95rem;
+    color: var(--ink-faint);
+    margin-bottom: 1.5rem;
+    padding-left: 0.5rem;
+    border-left: 2px solid var(--divider);
+  }
+
+  .sign-card {
+    background: var(--card-bg);
+    border: 1px solid var(--divider);
+    border-radius: 3px;
+    margin-bottom: 1.2rem;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+
+  .sign-card:hover {
+    box-shadow: 0 2px 12px rgba(44, 24, 16, 0.1);
+  }
+
+  .sign-display {
+    background: var(--tablet-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+    border-right: 1px solid var(--divider);
+    position: relative;
+  }
+
+  .sign-display::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(139, 69, 19, 0.08);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  .sign-glyph {
+    font-family: 'Noto Sans Cuneiform', serif;
+    font-size: 5.5rem;
+    line-height: 1;
+    color: var(--wedge);
+    margin-bottom: 0.6rem;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.08);
+  }
+
+  .sign-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    opacity: 0.5;
+  }
+
+  .sign-reading {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .sign-info {
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .sign-meaning {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+
+  .sign-type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    margin-bottom: 0.2rem;
+  }
+
+  .sign-origin {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .sign-mnemonic {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    padding-top: 0.3rem;
+    border-top: 1px solid var(--divider);
+  }
+
+  .sign-mnemonic strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .sign-functions {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .fn-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    background: rgba(139, 69, 19, 0.08);
+    color: var(--accent);
+  }
+
+  .fn-tag.det {
+    background: rgba(107, 74, 107, 0.1);
+    color: var(--batch4);
+  }
+
+  .fn-tag.num {
+    background: rgba(46, 107, 107, 0.1);
+    color: var(--batch5);
+  }
+
+  .legend {
+    background: var(--card-bg);
+    border: 1px solid var(--divider);
+    border-radius: 3px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .legend h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-faint);
+    margin-bottom: 0.6rem;
+  }
+
+  .legend-items {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 1px;
+  }
+
+  /* Concept box for batch-level notes */
+  .concept-box {
+    background: rgba(139, 69, 19, 0.04);
+    border: 1px solid var(--divider);
+    border-left: 3px solid var(--accent);
+    border-radius: 2px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .concept-box .concept-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+
+  @media (max-width: 700px) {
+    .sign-card { grid-template-columns: 140px 1fr; }
+    .sign-glyph { font-size: 4.5rem; }
+    .header h1 { font-size: 1.6rem; }
+    .content { padding: 1.5rem 1rem 3rem; }
+    .sign-info { padding: 1rem; }
+  }
+
+  @media (max-width: 500px) {
+    .sign-card { grid-template-columns: 1fr; }
+    .sign-display {
+      border-right: none;
+      border-bottom: 1px solid var(--divider);
+      padding: 1.5rem;
+    }
+    .sign-glyph { font-size: 5rem; }
+    .nav { padding: 0.8rem 0.8rem; gap: 0.3rem; }
+    .nav a { font-size: 0.6rem; padding: 0.3rem 0.5rem; }
+  }
+
+  @media print {
+    .nav { display: none; }
+    .sign-card { break-inside: avoid; }
+    .batch-header { break-after: avoid; }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Cuneiform Signs</h1>
+  <div class="subtitle">A learner's reference — Signs 1–51</div>
+  <div class="sign-count">7 batches · logograms · syllabograms · determinatives · numerals · verbs</div>
+</div>
+
+<nav class="nav">
+  <a href="#batch1" class="b1">1 · Foundations</a>
+  <a href="#batch2" class="b2">2 · Civilization</a>
+  <a href="#batch3" class="b3">3 · Syllabograms</a>
+  <a href="#batch4" class="b4">4 · Determinatives</a>
+  <a href="#batch5" class="b5">5 · Numbers</a>
+  <a href="#batch6" class="b6">6 · More Syllables</a>
+  <a href="#batch7" class="b7">7 · Verbs &amp; Actions</a>
+</nav>
+
+<div class="content">
+
+  <div class="legend">
+    <h3>How to read each card</h3>
+    <div class="legend-items">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--batch1)"></div> Batch color</div>
+      <div class="legend-item"><strong style="font-family:'Noto Sans Cuneiform';font-size:1.2rem;color:var(--wedge)">𒀭</strong> Sign at ~72pt</div>
+      <div class="legend-item"><span style="font-family:'JetBrains Mono';color:var(--accent);font-size:0.85rem">AN</span> Reading</div>
+      <div class="legend-item"><span class="fn-tag" style="display:inline">logogram</span> Function(s)</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BATCH 1: COSMIC FOUNDATIONS -->
+  <!-- ============================================================ -->
+  <div class="batch-header" id="batch1">
+    <span class="batch-number b1">Batch 1</span>
+    <span class="batch-title">Cosmic Foundations</span>
+  </div>
+  <p class="batch-desc">The building blocks: sky, earth, water, sun, person, head, house, grain. The universe and the essentials of life in eight signs.</p>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#1</span>
+      <div class="sign-glyph">𒀭</div>
+      <div class="sign-reading">AN</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram + Determinative</div>
+      <div class="sign-meaning">Heaven · God · Sky</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: dingir "god"</span>
+        <span class="fn-tag">determinative: divine name</span>
+        <span class="fn-tag">syllable: an</span>
+      </div>
+      <div class="sign-origin">Pictograph: a star radiating light — stars → sky → the divine</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Lines radiating from a center = a star. Before any god's name, this sign whispers "a deity follows." The cosmic ceiling.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#2</span>
+      <div class="sign-glyph">𒆠</div>
+      <div class="sign-reading">KI</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram + Determinative</div>
+      <div class="sign-meaning">Earth · Place · Ground</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: ki "earth"</span>
+        <span class="fn-tag">determinative: place name</span>
+      </div>
+      <div class="sign-origin">Pictograph: possibly a plot of land marked with boundary lines</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> AN (𒀭) is up, KI (𒆠) is down. The cosmic pair: 𒀭𒆠 AN.KI = "heaven-earth" = the universe. After a word, KI marks it as a geographic place.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#3</span>
+      <div class="sign-glyph">𒇻</div>
+      <div class="sign-reading">LU₂</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram</div>
+      <div class="sign-meaning">Person · Man</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: lu₂ "person"</span>
+      </div>
+      <div class="sign-origin">Pictograph: a standing human figure seen from the side</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> A stick figure, heavily abstracted. Wherever you see 𒇻, a person is involved. Also half of LUGAL (𒈗) = "great person" = king.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#4</span>
+      <div class="sign-glyph">𒊺</div>
+      <div class="sign-reading">ŠE</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram</div>
+      <div class="sign-meaning">Barley · Grain</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: še "barley"</span>
+      </div>
+      <div class="sign-origin">Pictograph: a stalk of grain with an ear of barley</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> The Sumerian dollar sign. Barley was food, beer, and wages. "She who controls the ŠE controls the economy." Pronounced "SHEH."</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#5</span>
+      <div class="sign-glyph">𒌓</div>
+      <div class="sign-reading">UD / UTU</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram</div>
+      <div class="sign-meaning">Sun · Day · Light</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: ud "day"</span>
+        <span class="fn-tag">logogram: utu "sun god"</span>
+        <span class="fn-tag">= Akkadian Shamash</span>
+      </div>
+      <div class="sign-origin">Pictograph: the sun rising over the horizon, with rays</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Dense, burst-like quality = the sun blasting light at dawn. Triple duty: the sun, the day, and the god of justice (Utu/Shamash) who sees all.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#6</span>
+      <div class="sign-glyph">𒀀</div>
+      <div class="sign-reading">A</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram + Syllabogram</div>
+      <div class="sign-meaning">Water</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: a "water"</span>
+        <span class="fn-tag">syllable: a</span>
+      </div>
+      <div class="sign-origin">Pictograph: wavy lines representing flowing water</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> First sign in the Unicode block (U+12000). Simplest sound, most essential substance. A = water = the beginning of everything.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#7</span>
+      <div class="sign-glyph">𒂍</div>
+      <div class="sign-reading">E₂</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram</div>
+      <div class="sign-meaning">House · Temple · Estate</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: e₂ "house"</span>
+      </div>
+      <div class="sign-origin">Pictograph: a floor plan — a rectangular enclosure with an entrance, viewed from above</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> A blueprint. Temple names start with E₂: Enlil's temple was E₂-kur ("House of the Mountain"). Scribe school = É.DUB.BA ("House of Tablets").</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#8</span>
+      <div class="sign-glyph">𒍣</div>
+      <div class="sign-reading">SAG</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram</div>
+      <div class="sign-meaning">Head · First · Chief</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: sag "head"</span>
+      </div>
+      <div class="sign-origin">Pictograph: a human head in profile</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Head → chief, first, beginning. Same semantic extension as English: "head of the line," "headstrong." One of the most stunning signs to watch evolve from clear portrait to abstract wedges.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BATCH 2: SIGNS OF CIVILIZATION -->
+  <!-- ============================================================ -->
+  <div class="batch-header" id="batch2">
+    <span class="batch-number b2">Batch 2</span>
+    <span class="batch-title">Signs of Civilization</span>
+  </div>
+  <p class="batch-desc">What people do: eat, speak, build, rule, trade. The verbs and nouns of administrative and royal life.</p>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#9</span>
+      <div class="sign-glyph">𒂠</div>
+      <div class="sign-reading">GU₇</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram (compound)</div>
+      <div class="sign-meaning">To Eat · To Consume</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: gu₇ "to eat"</span>
+      </div>
+      <div class="sign-origin">Pictograph: head + bowl at mouth — a compound action sign</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> First compound pictograph: two concepts combined to show an action. The original components are not clearly visible in the Unicode form — trust the story for memory, the wedge pattern for recognition.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#10</span>
+      <div class="sign-glyph">𒅗</div>
+      <div class="sign-reading">KA</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram (polyvalent)</div>
+      <div class="sign-meaning">Mouth · Word · Speech</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: ka "mouth"</span>
+        <span class="fn-tag">logogram: dug₄ "to speak"</span>
+        <span class="fn-tag">logogram: inim "word"</span>
+      </div>
+      <div class="sign-origin">Pictograph: a head with open mouth / teeth emphasized</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Mouths and what comes out of them. Your first serious polyvalent sign: one sign, three+ readings. Context disambiguates. The body part generated abstract meanings.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#11</span>
+      <div class="sign-glyph">𒄀</div>
+      <div class="sign-reading">GI</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram</div>
+      <div class="sign-meaning">Reed</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: gi "reed"</span>
+      </div>
+      <div class="sign-origin">Pictograph: a reed stalk from the southern marshlands</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> The sign for the writing system's own tool. The reed stylus makes the wedges. GI = the Sumerian Swiss Army knife (writing, building, weaving, boats).</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#12</span>
+      <div class="sign-glyph">𒆳</div>
+      <div class="sign-reading">KUR</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram</div>
+      <div class="sign-meaning">Mountain · Foreign Land · Underworld</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: kur "mountain"</span>
+        <span class="fn-tag">logogram: kur "foreign land"</span>
+        <span class="fn-tag">logogram: kur "underworld"</span>
+      </div>
+      <div class="sign-origin">Pictograph: mountain ridges on the horizon — three bumps still somewhat visible</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Sumer was flat. Mountains = the edge of the world = foreign = the beyond. Geography became cosmology. E₂-kur = "House of the Mountain" = Enlil's temple at Nippur.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#13</span>
+      <div class="sign-glyph">𒁀</div>
+      <div class="sign-reading">BA</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram + Syllabogram</div>
+      <div class="sign-meaning">To Give · To Allot · To Distribute</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: ba "to give"</span>
+        <span class="fn-tag">syllable: ba</span>
+      </div>
+      <div class="sign-origin">Pictograph: already fairly abstract in early forms</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> If ŠE is the dollar sign, BA is "to pay." Sumerian bureaucracy ran on distribution. Part of É.DUB.BA (edubba) — the scribe school where tablets are handed out.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#14</span>
+      <div class="sign-glyph">𒈗</div>
+      <div class="sign-reading">LUGAL</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram (compound)</div>
+      <div class="sign-meaning">King · Ruler</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: lugal "king"</span>
+      </div>
+      <div class="sign-origin">Pictograph: compound of LU₂ (person) + GAL (great) = "great person"</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Big + person = king. Honest, almost childlike logic. Kings wrote this on everything — every brick, statue, and foundation deposit. "I, LUGAL so-and-so, built this."</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BATCH 3: THE SOUND BARRIER -->
+  <!-- ============================================================ -->
+  <div class="batch-header" id="batch3">
+    <span class="batch-number b3">Batch 3</span>
+    <span class="batch-title">The Sound Barrier</span>
+  </div>
+  <p class="batch-desc">Syllabograms: signs used for their sound, not their meaning. The rebus principle that let cuneiform write anything in any language.</p>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#15</span>
+      <div class="sign-glyph">𒈾</div>
+      <div class="sign-reading">NA</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram (primary) + Logogram</div>
+      <div class="sign-meaning">Syllable "na" · (also: stone)</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: na</span>
+        <span class="fn-tag">logogram: na "stone"</span>
+      </div>
+      <div class="sign-origin">Pictograph: possibly a stone or pestle</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Nanni the copper merchant slamming his fist on a stone counter. NA = Nanni = stone-cold furious. One of the most common syllable signs in Akkadian.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#16</span>
+      <div class="sign-glyph">𒁲</div>
+      <div class="sign-reading">DI</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram + Logogram</div>
+      <div class="sign-meaning">Syllable "di" · (also: judgment)</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: di</span>
+        <span class="fn-tag">logogram: di "judgment"</span>
+      </div>
+      <div class="sign-origin">Related to legal/judicial contexts</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> DI = DI-cision, judgment. Links thematically to Utu/Shamash (𒌓), the sun god of justice.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#17</span>
+      <div class="sign-glyph">𒊏</div>
+      <div class="sign-reading">RA</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram (primary)</div>
+      <div class="sign-meaning">Syllable "ra"</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: ra</span>
+      </div>
+      <div class="sign-origin">Used overwhelmingly as a syllable sign</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> RA — like the Egyptian sun god (wrong civilization, but memorable). A workhorse syllable sign for building words and spelling names.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#18</span>
+      <div class="sign-glyph">𒌅</div>
+      <div class="sign-reading">TU</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram + Logogram</div>
+      <div class="sign-meaning">Syllable "tu" · (also: birth, to enter)</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: tu</span>
+        <span class="fn-tag">logogram: tu "to enter/birth"</span>
+      </div>
+      <div class="sign-origin">Related to entering / coming into being</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> TU = birth, entry. Something new arrives. The sun god Utu's name could theoretically be spelled TU-TU, though scribes preferred the logogram 𒌓.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#19</span>
+      <div class="sign-glyph">𒄿</div>
+      <div class="sign-reading">I</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram (vowel)</div>
+      <div class="sign-meaning">Syllable "i"</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: i</span>
+      </div>
+      <div class="sign-origin">Primarily a pure vowel sign</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Collecting vowels: 𒀀 = A, 𒄿 = I. Two of the four main Akkadian vowels (a, e, i, u) down.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#20</span>
+      <div class="sign-glyph">𒆷</div>
+      <div class="sign-reading">LA</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram + Logogram</div>
+      <div class="sign-meaning">Syllable "la" · (also: abundance)</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: la</span>
+        <span class="fn-tag">logogram: la "abundance"</span>
+      </div>
+      <div class="sign-origin">Can carry a sense of plenty or surplus</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> LA = la dolce vita, the abundant life. Now you can combine syllabograms: 𒈾𒊏 = NA-RA. You're building words from sounds.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BATCH 4: DETERMINATIVES & CLASSIFIERS -->
+  <!-- ============================================================ -->
+  <div class="batch-header" id="batch4">
+    <span class="batch-number b4">Batch 4</span>
+    <span class="batch-title">The Silent Guides</span>
+  </div>
+  <p class="batch-desc">Determinatives: signs that are written but never spoken. They classify the word that follows (or precedes) — telling you "this is a god," "this is made of wood," "this is a city." They are the reading aids scribes left for you across millennia.</p>
+
+  <div class="concept-box">
+    <div class="concept-title">Key concept: determinatives</div>
+    You already know two determinatives: 𒀭 (AN/DINGIR) before divine names and 𒆠 (KI) after place names. Now meet the rest of the system. Determinatives are <em>not pronounced</em> — they're silent classifiers, like capitalizing proper nouns in English or using 氵(water radical) in Chinese characters. They tell you what <em>category</em> a word belongs to before you even read it.
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#21</span>
+      <div class="sign-glyph">𒄑</div>
+      <div class="sign-reading">ĜIŠ</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Determinative + Logogram</div>
+      <div class="sign-meaning">Wood · Tree · Wooden Object</div>
+      <div class="sign-functions">
+        <span class="fn-tag det">determinative: wooden object</span>
+        <span class="fn-tag">logogram: ĝiš "wood/tree"</span>
+      </div>
+      <div class="sign-origin">Pictograph: a tree — trunk with branches</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Before any wooden object — a plow, a boat, a chair, a chariot — you'll see 𒄑. It's like a material label: "the following thing is made of wood." Mesopotamia was timber-poor, so wood was precious and carefully tracked. Pronounced "GISH" as a word, silent as a determinative.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#22</span>
+      <div class="sign-glyph">𒌑</div>
+      <div class="sign-reading">URUDU</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Determinative + Logogram</div>
+      <div class="sign-meaning">Copper · Metal</div>
+      <div class="sign-functions">
+        <span class="fn-tag det">determinative: metal object</span>
+        <span class="fn-tag">logogram: urudu "copper"</span>
+      </div>
+      <div class="sign-origin">Related to copper/metal — copper was the first widely used metal in Mesopotamia</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Nanni's complaint letter was about copper (URUDU) ingots. Before any metal tool, weapon, or vessel, you may see this determinative. When you spot it, think: "something metal is coming." Copper was the bronze in Bronze Age — alloyed with tin, it built civilizations.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#23</span>
+      <div class="sign-glyph">𒊩</div>
+      <div class="sign-reading">MUNUS</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Determinative + Logogram</div>
+      <div class="sign-meaning">Woman · Female</div>
+      <div class="sign-functions">
+        <span class="fn-tag det">determinative: female name</span>
+        <span class="fn-tag">logogram: munus "woman"</span>
+      </div>
+      <div class="sign-origin">Pictograph: the pubic triangle — a direct representation of female anatomy</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Just as 𒀭 before a name means "this is a god," 𒊩 before a name means "this is a woman." It also functions as the word for "woman" on its own, paired with LU₂ (𒇻 "man/person"). Sumerian women could own property, run businesses, and serve as priestesses — and their names are marked with this sign.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#24</span>
+      <div class="sign-glyph">𒄞</div>
+      <div class="sign-reading">ÍD</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Determinative + Logogram</div>
+      <div class="sign-meaning">River · Canal · Watercourse</div>
+      <div class="sign-functions">
+        <span class="fn-tag det">determinative: river/canal name</span>
+        <span class="fn-tag">logogram: íd "river"</span>
+      </div>
+      <div class="sign-origin">Related to flowing water — distinct from 𒀀 A (water in general)</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> You already know 𒀀 (A) = water. Now ÍD specifies <em>flowing</em> water — rivers and canals. Before any river name (Tigris, Euphrates, or the countless irrigation canals), you'll find this determinative. Mesopotamia literally means "between the rivers" — those rivers defined everything.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#25</span>
+      <div class="sign-glyph">𒌷</div>
+      <div class="sign-reading">URU</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Determinative + Logogram</div>
+      <div class="sign-meaning">City · Town · Settlement</div>
+      <div class="sign-functions">
+        <span class="fn-tag det">determinative: city name</span>
+        <span class="fn-tag">logogram: uru "city"</span>
+      </div>
+      <div class="sign-origin">Pictograph: a settlement or walled enclosure — related to urban structure</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Sumer was the world's first urban civilization. Before city names — Ur, Uruk, Nippur, Lagash, Eridu — you'll see 𒌷. Think of it as the ancient equivalent of writing "City of" before a name. You now have two geographic determinatives: URU for cities and KI for places generally.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#26</span>
+      <div class="sign-glyph">𒆸</div>
+      <div class="sign-reading">KUŠ</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Determinative + Logogram</div>
+      <div class="sign-meaning">Skin · Leather · Hide</div>
+      <div class="sign-functions">
+        <span class="fn-tag det">determinative: leather object</span>
+        <span class="fn-tag">logogram: kuš "skin/leather"</span>
+      </div>
+      <div class="sign-origin">Pictograph: an animal skin or hide</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Before leather goods — sandals, bags, harnesses, shields, drums — this determinative appears. Leather was a major industry. Think of it as the material tag: ĜIŠ = "made of wood," KUŠ = "made of leather." You're learning to read the Sumerian supply chain.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BATCH 5: NUMBERS & QUANTITIES -->
+  <!-- ============================================================ -->
+  <div class="batch-header" id="batch5">
+    <span class="batch-number b5">Batch 5</span>
+    <span class="batch-title">Counting in Sixties</span>
+  </div>
+  <p class="batch-desc">The numeral system — sexagesimal (base-60), the reason we have 60 minutes in an hour and 360 degrees in a circle. Sumerian counting shaped how the world tells time.</p>
+
+  <div class="concept-box">
+    <div class="concept-title">Key concept: sexagesimal</div>
+    Sumerians counted in base 60. This sounds bizarre until you realize that 60 is divisible by 2, 3, 4, 5, 6, 10, 12, 15, 20, and 30 — making it spectacularly useful for dividing rations, measuring fields, and tracking astronomical cycles. Our 60-minute hour, 60-second minute, and 360-degree circle are all direct inheritances from this system. Numbers in cuneiform are built by combining just a few basic marks: a vertical wedge for 1, a corner wedge (Winkelhaken) for 10, and positional notation for higher values.
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#27</span>
+      <div class="sign-glyph">𒁹</div>
+      <div class="sign-reading">DIŠ / 1</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Numeral + Logogram</div>
+      <div class="sign-meaning">One · 1</div>
+      <div class="sign-functions">
+        <span class="fn-tag num">numeral: 1</span>
+        <span class="fn-tag">logogram: diš "one/single"</span>
+      </div>
+      <div class="sign-origin">A single vertical wedge impression — the most elemental mark a stylus can make</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> One wedge = one. It doesn't get simpler. This is the atom of cuneiform numerals. You'll see these stacked and grouped to build larger numbers: 𒁹𒁹𒁹 = 3. Administrative tablets are full of these tallies next to commodity signs.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#28</span>
+      <div class="sign-glyph">𒈫</div>
+      <div class="sign-reading">MIN / 2</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Numeral</div>
+      <div class="sign-meaning">Two · 2</div>
+      <div class="sign-functions">
+        <span class="fn-tag num">numeral: 2</span>
+      </div>
+      <div class="sign-origin">Two vertical wedges side by side</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Two wedges = two. The pattern continues: three wedges for 3, and so on up to 9. After that, the system shifts to a different mark for 10.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#29</span>
+      <div class="sign-glyph">𒌋</div>
+      <div class="sign-reading">U / 10</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Numeral</div>
+      <div class="sign-meaning">Ten · 10</div>
+      <div class="sign-functions">
+        <span class="fn-tag num">numeral: 10</span>
+      </div>
+      <div class="sign-origin">The Winkelhaken — a corner-shaped impression made by rotating the stylus and pressing its corner into the clay at an angle</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> The "corner wedge" or Winkelhaken (German for "angle hook"). A completely different motion from the vertical wedge — the scribe rotates the stylus. One Winkelhaken = 10. Two = 20. Combined with unit wedges: 𒌋𒁹𒁹𒁹 = 13. This two-symbol system (vertical wedge + corner wedge) can express any number.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#30</span>
+      <div class="sign-glyph">𒌍</div>
+      <div class="sign-reading">EŠ₅ / 30</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Numeral</div>
+      <div class="sign-meaning">Thirty · 30</div>
+      <div class="sign-functions">
+        <span class="fn-tag num">numeral: 30</span>
+      </div>
+      <div class="sign-origin">Three Winkelhaken stacked — each corner wedge worth 10</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Three tens. Thirty is half of 60 (the base), so it appears constantly — halfway points, half-rations, half-measures. The moon god Nanna/Sin had 30 as his sacred number, linked to the roughly 30 days of a lunar month.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#31</span>
+      <div class="sign-glyph">𒐐</div>
+      <div class="sign-reading">NIMIN / 40</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Numeral</div>
+      <div class="sign-meaning">Forty · 40</div>
+      <div class="sign-functions">
+        <span class="fn-tag num">numeral: 40</span>
+      </div>
+      <div class="sign-origin">Four Winkelhaken — continuing the stacking pattern</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Four corner-wedges. The god Ea/Enki had 40 as his sacred number. Sumerian gods were assigned numbers in a divine hierarchy: Anu = 60 (the highest, the full base), Enlil = 50, Ea = 40, Sin = 30, Shamash = 20. The number system and theology were intertwined.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#32</span>
+      <div class="sign-glyph">𒐞</div>
+      <div class="sign-reading">NIŠU / 60</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Numeral</div>
+      <div class="sign-meaning">Sixty · 60</div>
+      <div class="sign-functions">
+        <span class="fn-tag num">numeral: 60</span>
+      </div>
+      <div class="sign-origin">Returns to a single large vertical wedge — the base resets, like how 10 in decimal "looks like" 1-0</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> Here's the magic: 60 looks like a bigger version of 1. The system is positional — just as "1" in the tens column means 10 in our system, a wedge in the sixties column means 60 in theirs. Anu, king of the gods, had 60 as his number — the complete cycle, the full base. Context and position tell you whether a wedge means 1 or 60.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#33</span>
+      <div class="sign-glyph">𒋗</div>
+      <div class="sign-reading">ŠAR₂ / 3600</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Numeral + Logogram</div>
+      <div class="sign-meaning">3,600 (= 60²) · "Totality"</div>
+      <div class="sign-functions">
+        <span class="fn-tag num">numeral: 3600</span>
+        <span class="fn-tag">logogram: šar₂ "totality/universe"</span>
+      </div>
+      <div class="sign-origin">A large circular impression — made by pressing the round end of the stylus into clay</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> 60 × 60 = 3,600. This is the "square" of the base — a huge number that also meant "totality," "everything," "the universe." When Sargon of Akkad claimed to feed "5,400 men daily," these are the numerals he used. The circle shape distinguishes it from wedge-based numbers — a different stylus motion for a different order of magnitude.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BATCH 6: MORE SYLLABOGRAMS -->
+  <!-- ============================================================ -->
+  <div class="batch-header" id="batch6">
+    <span class="batch-number b6">Batch 6</span>
+    <span class="batch-title">Building the Syllabary</span>
+  </div>
+  <p class="batch-desc">More syllable signs to fill out your phonetic toolkit. With these, you can sound out most common Akkadian words and royal names — the same skill that cracked the code at Behistun.</p>
+
+  <div class="concept-box">
+    <div class="concept-title">Key concept: CVC, CV, VC</div>
+    Cuneiform syllable signs come in three shapes: CV (consonant-vowel, like NA, TU, RA), VC (vowel-consonant, like AN, EN, UR), and CVC (consonant-vowel-consonant, like TAR, KUR, ŠUM). A word like <em>šarrum</em> ("king" in Akkadian) could be spelled ŠA-AR-RU-UM — four CV/VC signs — or more efficiently with CVC signs. Scribes mixed and matched for clarity, space, and convention.
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#34</span>
+      <div class="sign-glyph">𒁉</div>
+      <div class="sign-reading">BI</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram + Logogram</div>
+      <div class="sign-meaning">Syllable "bi" · (also: to speak, to call)</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: bi</span>
+        <span class="fn-tag">logogram: bi "to call"</span>
+      </div>
+      <div class="sign-origin">Functions primarily as a syllabic building block</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> BI — think "to BE called." Now you have BA, BI — the B-series is growing. In Akkadian texts, BI shows up constantly in verbal forms and suffixes.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#35</span>
+      <div class="sign-glyph">𒊮</div>
+      <div class="sign-reading">ŠA</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram + Logogram</div>
+      <div class="sign-meaning">Syllable "ša" · (also: heart, interior)</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: ša</span>
+        <span class="fn-tag">logogram: šà "heart/inside"</span>
+      </div>
+      <div class="sign-origin">Pictograph: possibly related to the interior of the body — the heart or womb</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> ŠA = heart, the inside. Think of the English expression "the heart of the matter" — ŠA means the interior, the core. As a syllable, ŠA is critical — it's the first syllable of <em>šarrum</em> (Akkadian for "king"). You can now start spelling that word: 𒊮 + …</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#36</span>
+      <div class="sign-glyph">𒋻</div>
+      <div class="sign-reading">TAR</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram + Logogram</div>
+      <div class="sign-meaning">Syllable "tar" · (also: to cut, to decide)</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: tar</span>
+        <span class="fn-tag">logogram: tar "to cut/decide"</span>
+      </div>
+      <div class="sign-origin">Related to cutting or dividing — decisions as "cuts" between options</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> TAR = to cut, to decide. Your first CVC syllable sign — it packs a consonant on both sides of the vowel, making spelling more efficient. "To cut" → "to decide" is the same metaphor as English "to make a cut" or Latin <em>decidere</em> (to cut off). Decisions are cuts.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#37</span>
+      <div class="sign-glyph">𒂗</div>
+      <div class="sign-reading">EN</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram + Logogram</div>
+      <div class="sign-meaning">Syllable "en" · Lord · High Priest</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: en</span>
+        <span class="fn-tag">logogram: en "lord/priest"</span>
+      </div>
+      <div class="sign-origin">Related to lordship and sacred authority</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> EN = lord. A VC syllable (vowel + consonant). The title EN predates LUGAL (king) — in the earliest periods, the EN was the chief priest-ruler of a city. Enki ("Lord of the Earth"), Enlil ("Lord of the Wind") — divine names start with EN. This is one of the oldest and most prestigious titles in human history.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#38</span>
+      <div class="sign-glyph">𒉌</div>
+      <div class="sign-reading">NI</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram + Logogram</div>
+      <div class="sign-meaning">Syllable "ni" · (also: oil, fear, awe)</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: ni</span>
+        <span class="fn-tag">logogram: ì "oil/fat"</span>
+        <span class="fn-tag">logogram: ni₂ "fear/awe"</span>
+      </div>
+      <div class="sign-origin">Related to oil/fat — a glistening, powerful substance</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> NI bridges the physical and the spiritual: oil (precious, used in rituals) and awe/fear (the feeling before the divine). As a syllable, NI completes your N-series: NA, NI. Oil was essential in Mesopotamia — for lamps, cooking, anointing, and trade.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#39</span>
+      <div class="sign-glyph">𒌨</div>
+      <div class="sign-reading">UR</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram + Logogram</div>
+      <div class="sign-meaning">Syllable "ur" · Dog · Servant · Base</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: ur</span>
+        <span class="fn-tag">logogram: ur "dog"</span>
+        <span class="fn-tag">logogram: ur "base/root"</span>
+      </div>
+      <div class="sign-origin">Pictograph: a dog — possibly seen from above or in profile</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> UR = dog, and by extension "servant" or "follower" (loyal as a dog). Also "base" or "root" (the bottom of something). The great city of Ur — one of the world's first major cities, home of the famous ziggurat and traditional birthplace of Abraham — carries this sign in its name. As a VC syllable, UR is everywhere in Akkadian texts.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#40</span>
+      <div class="sign-glyph">𒊒</div>
+      <div class="sign-reading">RU</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram + Logogram</div>
+      <div class="sign-meaning">Syllable "ru" · (also: to send, to blow)</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: ru</span>
+        <span class="fn-tag">logogram: ru "to send/blow"</span>
+      </div>
+      <div class="sign-origin">Associated with directed motion — sending, dispatching</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> RU = to send. Think "route" — sending something on its way. Critical syllabically: you now have RA, RU — the R-series is building. Combined with ŠA (𒊮), you can now spell ŠA-RU — getting close to <em>šarrum</em> ("king" in Akkadian).</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#41</span>
+      <div class="sign-glyph">𒌝</div>
+      <div class="sign-reading">UM</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram</div>
+      <div class="sign-meaning">Syllable "um"</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: um</span>
+      </div>
+      <div class="sign-origin">Primarily a syllabic sign</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> UM completes a crucial spelling: 𒊮𒊒𒌝 = ŠA-RU-UM = <em>šarrum</em>, the Akkadian word for "king." You can now write "king" two ways — the Sumerian logogram 𒈗 (LUGAL) or syllabically in Akkadian. This is exactly how real scribes operated: two systems, one script, constant choice.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BATCH 7: COMMON VERBS & ACTIONS -->
+  <!-- ============================================================ -->
+  <div class="batch-header" id="batch7">
+    <span class="batch-number b7">Batch 7</span>
+    <span class="batch-title">What Happened</span>
+  </div>
+  <p class="batch-desc">Verbs — the signs that tell you what people <em>did</em>. Built, went, placed, gave, made. Without these, tablets are just lists of nouns. With them, they become stories, records, and laws.</p>
+
+  <div class="concept-box">
+    <div class="concept-title">Key concept: verbs as logograms</div>
+    Sumerian verbs in cuneiform are often written as logograms even in Akkadian texts. A scribe writing in Akkadian might use the Sumerian verb sign and then add Akkadian grammatical endings syllabically — a hybrid approach. Understanding these common verb logograms lets you parse the "what happened" of any text, even before you learn full Akkadian grammar.
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#42</span>
+      <div class="sign-glyph">𒁺</div>
+      <div class="sign-reading">DU</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram (polyvalent)</div>
+      <div class="sign-meaning">To Go · To Walk · To Build</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: du "to go/walk"</span>
+        <span class="fn-tag">logogram: ĝen "to go" (alt.)</span>
+        <span class="fn-tag">logogram: dù "to build"</span>
+        <span class="fn-tag">syllable: du</span>
+      </div>
+      <div class="sign-origin">Pictograph: a foot or leg in motion — walking</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> A foot walking. DU is beautifully polyvalent: "to go" and "to build" seem unrelated until you realize that building is "going at it" — directed action. In royal inscriptions, DÙ ("he built") is one of the most common verbs: "I built this temple, I built this wall, I built this canal." Kings defined themselves by what they built.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#43</span>
+      <div class="sign-glyph">𒃻</div>
+      <div class="sign-reading">GAR</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram + Syllabogram</div>
+      <div class="sign-meaning">To Place · To Put · To Set Down</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: gar "to place"</span>
+        <span class="fn-tag">logogram: ninda "bread/food"</span>
+        <span class="fn-tag">syllable: gar</span>
+      </div>
+      <div class="sign-origin">Pictograph: possibly a ration bowl or food container being set down</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> GAR = to place, to set down. Also reads NINDA = "bread/food" — because setting down food (placing a ration bowl) was the archetypal act of placing. In administrative texts, GAR appears when things are deposited, assigned, or established. Think: "to lay down" — a foundation, a ruling, a ration.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#44</span>
+      <div class="sign-glyph">𒆕</div>
+      <div class="sign-reading">KU₄</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram</div>
+      <div class="sign-meaning">To Enter · To Bring In</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: ku₄ "to enter"</span>
+      </div>
+      <div class="sign-origin">Related to entering or going into an enclosure</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> KU₄ = to enter. Pair it with E₂ (𒂍 "house"): "to enter the house," "to bring into the temple." In economic texts, goods "enter" the storehouse — they're received, checked in, deposited. Think of it as the "incoming" stamp on a delivery.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#45</span>
+      <div class="sign-glyph">𒂊</div>
+      <div class="sign-reading">E</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram + Logogram</div>
+      <div class="sign-meaning">Syllable "e" · To Go Out · To Leave</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: e</span>
+        <span class="fn-tag">logogram: è "to go out"</span>
+      </div>
+      <div class="sign-origin">Represents outward motion — exiting, emerging</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> E (è) = to go out. The opposite of KU₄ (to enter). Goods "go out" of the storehouse — they're disbursed, shipped, distributed. You now have a pair: KU₄ = in, È = out. Every warehouse needed both. Also gives you the vowel "e" — three of four Akkadian vowels collected (A, E, I).</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#46</span>
+      <div class="sign-glyph">𒅆</div>
+      <div class="sign-reading">IGI</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram</div>
+      <div class="sign-meaning">Eye · To See · Before · In Front Of</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: igi "eye"</span>
+        <span class="fn-tag">logogram: igi "to see/before"</span>
+      </div>
+      <div class="sign-origin">Pictograph: an eye — one of the signs where the pictographic origin is still most recognizable</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> An eye. Like KA (mouth → speech), the body part generates abstractions: eye → to see → "before" (what is in front of the eyes) → "in the presence of." Legal texts use IGI for "in the presence of witnesses" — seeing is witnessing is authority. Look at 𒅆 and try to see the eye looking back at you.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#47</span>
+      <div class="sign-glyph">𒋳</div>
+      <div class="sign-reading">ŠUM</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram + Syllabogram</div>
+      <div class="sign-meaning">To Give · To Grant</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: šum "to give"</span>
+        <span class="fn-tag">syllable: šum</span>
+      </div>
+      <div class="sign-origin">Related to the act of giving, granting, bestowing</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> ŠUM = to give. You already know BA (to allot/distribute). ŠUM is more personal — a gift, a grant, a divine bestowal. "The god gave him kingship" would use ŠUM. It's the difference between a bureaucratic disbursement (BA) and a meaningful gift (ŠUM). A CVC syllable sign too — efficient for spelling.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#48</span>
+      <div class="sign-glyph">𒌉</div>
+      <div class="sign-reading">DUMU</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram</div>
+      <div class="sign-meaning">Son · Child · Offspring</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: dumu "son/child"</span>
+      </div>
+      <div class="sign-origin">Pictograph: a child or infant — small figure, possibly on the mother's body</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> DUMU = son/child. Royal inscriptions are obsessed with lineage: "So-and-so, LUGAL of Ur, DUMU of So-and-so." King, son of king, son of king. DUMU is how dynasty is written. Combined with MUNUS (𒊩 "woman"), DUMU.MUNUS = daughter. Combined with LUGAL: DUMU.LUGAL = prince ("child of the king").</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#49</span>
+      <div class="sign-glyph">𒈬</div>
+      <div class="sign-reading">MU</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram + Logogram</div>
+      <div class="sign-meaning">Syllable "mu" · Name · Year</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: mu</span>
+        <span class="fn-tag">logogram: mu "name"</span>
+        <span class="fn-tag">logogram: mu "year"</span>
+      </div>
+      <div class="sign-origin">Related to naming and commemoration</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> MU = name and year. These are connected: Sumerians named their years after major events. "The year the king built the wall of Ur" — that's how dates work in many periods. MU starts the date formula. Also the word for "name," which is everything in royal ideology: to have your name endure is to achieve immortality. "May his MU endure forever."</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#50</span>
+      <div class="sign-glyph">𒅎</div>
+      <div class="sign-reading">IM</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Syllabogram + Logogram</div>
+      <div class="sign-meaning">Syllable "im" · Clay · Wind · Tablet</div>
+      <div class="sign-functions">
+        <span class="fn-tag">syllable: im</span>
+        <span class="fn-tag">logogram: im "clay/wind"</span>
+        <span class="fn-tag det">determinative: clay object</span>
+      </div>
+      <div class="sign-origin">Related to clay and wind — elemental forces</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> IM = clay = wind = tablet. Clay and wind seem unrelated until you consider that both are elemental, formless forces that are shaped into something useful. Clay becomes a tablet; wind becomes weather. As a determinative, IM before an object means "made of clay." The medium of cuneiform itself is IM — every tablet you'll ever read is made of it.</div>
+    </div>
+  </div>
+
+  <div class="sign-card">
+    <div class="sign-display">
+      <span class="sign-number">#51</span>
+      <div class="sign-glyph">𒊬</div>
+      <div class="sign-reading">SAR</div>
+    </div>
+    <div class="sign-info">
+      <div class="sign-type">Logogram + Syllabogram</div>
+      <div class="sign-meaning">To Write · Garden · A Surface Measure</div>
+      <div class="sign-functions">
+        <span class="fn-tag">logogram: sar "to write"</span>
+        <span class="fn-tag">logogram: sar "garden"</span>
+        <span class="fn-tag">syllable: sar</span>
+      </div>
+      <div class="sign-origin">Related to inscribing or marking a surface</div>
+      <div class="sign-mnemonic"><strong>Remember:</strong> A fitting sign to end on: SAR = to write. The act you are learning to understand. "Garden" and "surface measure" connect through the idea of a marked-out area — a plot inscribed with boundaries, a surface inscribed with wedges. Writing and land surveying were both acts of making marks that mattered. The scribe's art and the surveyor's art, unified in one sign.</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
