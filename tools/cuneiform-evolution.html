@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuneiform Sign Evolution</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Cuneiform&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #1a1612; color: #e8dcc8; min-height: 100vh; }
+
+  .header {
+    background: linear-gradient(135deg, #2d1f0e 0%, #1a1612 100%);
+    border-bottom: 1px solid #3d2e1a;
+    padding: 24px 32px;
+  }
+  .header h1 { font-size: 24px; font-weight: 700; color: #d4a853; }
+  .header p { font-size: 13px; color: #8a7a62; margin-top: 4px; }
+
+  .sign-selector {
+    display: flex; gap: 8px; padding: 20px 32px; flex-wrap: wrap;
+    background: #1e1914; border-bottom: 1px solid #2d2318;
+  }
+  .sign-btn {
+    background: #2a2118; border: 1px solid #3d2e1a; color: #c4a97a;
+    padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px;
+    font-family: 'Inter', sans-serif; transition: all 0.2s;
+  }
+  .sign-btn:hover { background: #3d2e1a; border-color: #d4a853; }
+  .sign-btn.active { background: #d4a853; color: #1a1612; border-color: #d4a853; font-weight: 600; }
+
+  .main { max-width: 900px; margin: 0 auto; padding: 32px; }
+
+  .sign-title {
+    text-align: center; margin-bottom: 32px;
+  }
+  .sign-title .cuneiform {
+    font-family: 'Noto Sans Cuneiform', serif; font-size: 64px; color: #d4a853;
+    line-height: 1.2;
+  }
+  .sign-title .name { font-size: 28px; font-weight: 700; color: #e8dcc8; margin-top: 4px; }
+  .sign-title .meaning { font-size: 15px; color: #8a7a62; margin-top: 4px; }
+
+  .timeline {
+    position: relative; padding: 0 0 0 40px;
+  }
+  .timeline::before {
+    content: ''; position: absolute; left: 15px; top: 0; bottom: 0;
+    width: 2px; background: linear-gradient(to bottom, #d4a853, #3d2e1a);
+  }
+
+  .stage {
+    position: relative; margin-bottom: 40px; opacity: 0;
+    transform: translateY(20px);
+    animation: stageIn 0.5s ease-out forwards;
+  }
+  .stage:nth-child(1) { animation-delay: 0.1s; }
+  .stage:nth-child(2) { animation-delay: 0.3s; }
+  .stage:nth-child(3) { animation-delay: 0.5s; }
+  .stage:nth-child(4) { animation-delay: 0.7s; }
+  .stage:nth-child(5) { animation-delay: 0.9s; }
+
+  @keyframes stageIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stage::before {
+    content: ''; position: absolute; left: -33px; top: 24px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: #d4a853; border: 3px solid #1a1612;
+    box-shadow: 0 0 8px rgba(212, 168, 83, 0.4);
+  }
+
+  .stage-card {
+    background: #231d16; border: 1px solid #3d2e1a; border-radius: 16px;
+    padding: 24px; display: flex; gap: 24px; align-items: center;
+    transition: all 0.3s;
+  }
+  .stage-card:hover {
+    border-color: #d4a853; box-shadow: 0 4px 24px rgba(212, 168, 83, 0.1);
+  }
+
+  .stage-visual {
+    flex-shrink: 0; width: 120px; height: 120px;
+    display: flex; align-items: center; justify-content: center;
+    background: #1a1612; border-radius: 12px; border: 1px solid #2d2318;
+  }
+  .stage-visual svg { width: 90px; height: 90px; }
+  .stage-visual .cuneiform-char {
+    font-family: 'Noto Sans Cuneiform', serif; font-size: 56px; color: #d4a853;
+  }
+
+  .stage-info { flex: 1; }
+  .stage-date { font-size: 11px; color: #d4a853; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+  .stage-name { font-size: 18px; font-weight: 600; color: #e8dcc8; margin: 4px 0; }
+  .stage-desc { font-size: 13px; color: #8a7a62; line-height: 1.6; }
+
+  .morph-container {
+    margin: 40px 0; text-align: center;
+  }
+  .morph-label { font-size: 12px; color: #8a7a62; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+
+  .morph-strip {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    background: #231d16; border: 1px solid #3d2e1a; border-radius: 16px;
+    padding: 24px; overflow-x: auto;
+  }
+  .morph-frame {
+    flex-shrink: 0; width: 80px; height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    background: #1a1612; border-radius: 8px; border: 1px solid #2d2318;
+  }
+  .morph-frame svg { width: 60px; height: 60px; }
+  .morph-frame .cuneiform-char { font-family: 'Noto Sans Cuneiform', serif; font-size: 40px; color: #d4a853; }
+  .morph-arrow { color: #3d2e1a; font-size: 20px; flex-shrink: 0; }
+
+  .note {
+    background: #2a2118; border: 1px solid #3d2e1a; border-radius: 12px;
+    padding: 16px 20px; margin-top: 32px; font-size: 13px; color: #8a7a62; line-height: 1.6;
+  }
+  .note strong { color: #d4a853; }
+
+  /* Animated morph viewer */
+  .morph-viewer {
+    margin: 40px auto; text-align: center; max-width: 400px;
+  }
+  .morph-display {
+    width: 200px; height: 200px; margin: 0 auto 16px;
+    display: flex; align-items: center; justify-content: center;
+    background: #1a1612; border-radius: 16px; border: 2px solid #3d2e1a;
+    position: relative; overflow: hidden;
+  }
+  .morph-display svg {
+    width: 140px; height: 140px;
+    transition: opacity 0.6s ease-in-out;
+    position: absolute;
+  }
+  .morph-display .cuneiform-char {
+    font-family: 'Noto Sans Cuneiform', serif; font-size: 80px; color: #d4a853;
+    transition: opacity 0.6s ease-in-out; position: absolute;
+  }
+  .morph-display .hidden { opacity: 0; }
+  .morph-display .visible { opacity: 1; }
+
+  .slider-row { display: flex; align-items: center; gap: 12px; justify-content: center; }
+  .slider-row label { font-size: 11px; color: #8a7a62; white-space: nowrap; }
+  input[type="range"] {
+    -webkit-appearance: none; width: 200px; height: 4px;
+    background: #3d2e1a; border-radius: 2px; outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 16px; height: 16px;
+    background: #d4a853; border-radius: 50%; cursor: pointer;
+  }
+
+  .play-btn {
+    background: #d4a853; color: #1a1612; border: none; padding: 8px 20px;
+    border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;
+    font-family: 'Inter', sans-serif; margin-top: 12px; transition: all 0.2s;
+  }
+  .play-btn:hover { background: #e0ba6a; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Cuneiform Sign Evolution</h1>
+  <p>Watch signs transform from pictographs to abstract wedges across 3,000 years</p>
+</div>
+
+<div class="sign-selector" id="selector"></div>
+
+<div class="main" id="main"></div>
+
+<script>
+// SVG pictograph data for each evolution stage
+// Each sign has stages: pictograph → early cuneiform → rotated/simplified → classic cuneiform (Unicode)
+const SIGNS = {
+  AN: {
+    char: "\u{1202D}", name: "AN", meaning: "heaven, sky, god",
+    note: "AN started as an eight-pointed star — the night sky full of divine lights. As scribes sped up, the rays simplified to crossing wedges. The sign became the 'determinative' placed before any god's name: a silent classifier telling the reader \"what follows is divine.\"",
+    stages: [
+      {
+        date: "c. 3500 BCE", name: "Pictograph",
+        desc: "An eight-pointed star — the night sky. Each ray represents a direction of divine radiance.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="2.5" fill="none">
+          <line x1="50" y1="10" x2="50" y2="90"/>
+          <line x1="10" y1="50" x2="90" y2="50"/>
+          <line x1="22" y1="22" x2="78" y2="78"/>
+          <line x1="78" y1="22" x2="22" y2="78"/>
+          <circle cx="50" cy="50" r="3" fill="#d4a853"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 3100 BCE", name: "Proto-cuneiform",
+        desc: "Still recognizably a star, but drawn with fewer strokes. The rays begin to thicken at the center.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="3.5" fill="none" stroke-linecap="round">
+          <line x1="50" y1="15" x2="50" y2="85"/>
+          <line x1="15" y1="50" x2="85" y2="50"/>
+          <line x1="25" y1="25" x2="75" y2="75"/>
+          <line x1="75" y1="25" x2="25" y2="75"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2600 BCE", name: "Early Dynastic",
+        desc: "Rotated 90°. Strokes now pressed as wedges — the stylus leaves triangular impressions in clay.",
+        svg: `<svg viewBox="0 0 100 100"><g fill="#d4a853">
+          <polygon points="50,15 46,50 54,50"/>
+          <polygon points="50,85 46,50 54,50"/>
+          <polygon points="15,50 50,46 50,54"/>
+          <polygon points="85,50 50,46 50,54"/>
+          <polygon points="27,27 47,48 48,47"/>
+          <polygon points="73,73 53,52 52,53"/>
+          <polygon points="73,27 52,47 53,48"/>
+          <polygon points="27,73 48,53 47,52"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2000 BCE", name: "Old Babylonian",
+        desc: "Four wedges meeting at a point — the classic form used across Mesopotamia for over a millennium.",
+        type: "unicode"
+      }
+    ]
+  },
+
+  KA: {
+    char: "\u{12157}", name: "KA", meaning: "mouth, speech, word",
+    note: "KA is a head (SAG) with the mouth area marked by internal lines. It's one of cuneiform's most productive signs — with different things 'inside' the mouth, it generates dozens of compound signs: KA×NINDA (mouth + bread) = GU₇ (to eat), KA×A (mouth + water) = NAG (to drink).",
+    stages: [
+      {
+        date: "c. 3500 BCE", name: "Pictograph",
+        desc: "A human head in profile with the mouth clearly drawn — an open jaw ready to speak.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="2.5" fill="none">
+          <ellipse cx="50" cy="42" rx="25" ry="30"/>
+          <line x1="35" y1="55" x2="55" y2="55"/>
+          <line x1="35" y1="55" x2="30" y2="65"/>
+          <line x1="55" y1="55" x2="30" y2="65"/>
+          <circle cx="42" cy="35" r="2.5" fill="#d4a853"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 3100 BCE", name: "Proto-cuneiform",
+        desc: "Head simplified to a rough oval. The mouth becomes a hatched area — lines crossing inside the head shape.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="3" fill="none" stroke-linecap="round">
+          <rect x="25" y="20" width="50" height="60" rx="8"/>
+          <line x1="35" y1="50" x2="65" y2="50"/>
+          <line x1="35" y1="58" x2="65" y2="58"/>
+          <line x1="45" y1="42" x2="45" y2="66"/>
+          <line x1="55" y1="42" x2="55" y2="66"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2600 BCE", name: "Early Dynastic",
+        desc: "Rotated 90°. Now an abstract frame with interior wedge marks — the 'mouth' is purely symbolic.",
+        svg: `<svg viewBox="0 0 100 100"><g fill="#d4a853">
+          <polygon points="20,20 25,50 20,80 80,80 75,50 80,20"/>
+          <rect x="35" y="38" width="30" height="3" rx="1"/>
+          <rect x="35" y="48" width="30" height="3" rx="1"/>
+          <rect x="35" y="58" width="30" height="3" rx="1"/>
+        </g><g stroke="#1a1612" stroke-width="2" fill="none">
+          <polygon points="20,20 25,50 20,80 80,80 75,50 80,20"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2000 BCE", name: "Old Babylonian",
+        desc: "The classic wedge form — a container shape with internal marks. The 'mouth' now holds other signs to create compounds.",
+        type: "unicode"
+      }
+    ]
+  },
+
+  GU7: {
+    char: "\u{12165}", name: "GU₇", meaning: "to eat, consume",
+    note: "GU₇ is KA × GAR — the mouth sign containing the bread/ration sign. Literally: mouth + food = eating. This compositional logic is one of cuneiform's most beautiful features. The earliest accounting tablets track exactly this: how much food (NINDA) was consumed (GU₇) by how many workers (LÚ).",
+    stages: [
+      {
+        date: "c. 3500 BCE", name: "Pictograph",
+        desc: "A head with food going into the mouth — the concept of eating depicted as directly as possible.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="2.5" fill="none">
+          <ellipse cx="45" cy="42" rx="25" ry="30"/>
+          <line x1="30" y1="52" x2="50" y2="52"/>
+          <line x1="30" y1="52" x2="28" y2="62"/>
+          <line x1="50" y1="52" x2="28" y2="62"/>
+          <circle cx="38" cy="35" r="2.5" fill="#d4a853"/>
+          <circle cx="62" cy="52" r="8" fill="none"/>
+          <line x1="55" y1="48" x2="50" y2="52"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 3100 BCE", name: "Proto-cuneiform",
+        desc: "The head-frame now contains a small circle or bowl shape — KA (mouth) with NINDA (bread) visibly inside.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="3" fill="none" stroke-linecap="round">
+          <rect x="22" y="20" width="56" height="60" rx="8"/>
+          <line x1="32" y1="45" x2="68" y2="45"/>
+          <line x1="32" y1="55" x2="68" y2="55"/>
+          <circle cx="50" cy="65" r="7" fill="#d4a853" stroke="none"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2600 BCE", name: "Early Dynastic",
+        desc: "Rotated and stylized. The mouth-frame contains wedge marks for the food sign — compound logic preserved in abstraction.",
+        svg: `<svg viewBox="0 0 100 100"><g fill="#d4a853">
+          <polygon points="18,18 22,50 18,82 82,82 78,50 82,18"/>
+          <rect x="33" y="35" width="34" height="3" rx="1"/>
+          <rect x="33" y="45" width="34" height="3" rx="1"/>
+          <rect x="33" y="55" width="34" height="3" rx="1"/>
+          <polygon points="42,62 50,58 58,62 58,72 42,72"/>
+        </g><g stroke="#1a1612" stroke-width="2" fill="none">
+          <polygon points="18,18 22,50 18,82 82,82 78,50 82,18"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2000 BCE", name: "Old Babylonian",
+        desc: "KA × GAR in its canonical form — a container (mouth) with internal wedges (food). The composition is still legible if you know what to look for.",
+        type: "unicode"
+      }
+    ]
+  },
+
+  A: {
+    char: "\u{12000}", name: "A", meaning: "water",
+    note: "A (water) started as wavy lines — universally recognizable. Southern Mesopotamia was defined by water: the Tigris and Euphrates, the marshes, the irrigation canals. Water was life, and this sign appears in the very earliest texts.",
+    stages: [
+      {
+        date: "c. 3500 BCE", name: "Pictograph",
+        desc: "Wavy horizontal lines — flowing water, as simple and universal as it gets.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="2.5" fill="none" stroke-linecap="round">
+          <path d="M15,30 Q30,20 45,30 Q60,40 75,30 Q82,25 90,30"/>
+          <path d="M15,50 Q30,40 45,50 Q60,60 75,50 Q82,45 90,50"/>
+          <path d="M15,70 Q30,60 45,70 Q60,80 75,70 Q82,65 90,70"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 3100 BCE", name: "Proto-cuneiform",
+        desc: "Waves straighten into parallel zigzag lines — faster to draw but still clearly 'water.'",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="3" fill="none" stroke-linecap="round">
+          <polyline points="15,30 35,22 55,30 75,22 90,30"/>
+          <polyline points="15,50 35,42 55,50 75,42 90,50"/>
+          <polyline points="15,70 35,62 55,70 75,62 90,70"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2600 BCE", name: "Early Dynastic",
+        desc: "Rotated 90° and simplified. Lines become short wedge impressions — the waves are now abstract vertical strokes.",
+        svg: `<svg viewBox="0 0 100 100"><g fill="#d4a853">
+          <polygon points="30,20 35,25 30,85 25,80"/>
+          <polygon points="50,20 55,25 50,85 45,80"/>
+          <polygon points="70,20 75,25 70,85 65,80"/>
+          <polygon points="32,25 28,25 30,20"/>
+          <polygon points="52,25 48,25 50,20"/>
+          <polygon points="72,25 68,25 70,20"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2000 BCE", name: "Old Babylonian",
+        desc: "The canonical form: a cluster of wedge marks. The flowing water is gone, but the sign's importance never faded.",
+        type: "unicode"
+      }
+    ]
+  },
+
+  SAG: {
+    char: "\u{12295}", name: "SAG", meaning: "head, first, front",
+    note: "SAG is the human head in profile — one of the most naturalistic early signs. From SAG came many body-part signs: KA (mouth) is SAG with the mouth marked, IGI (eye) is SAG with the eye marked. 'Head' also means 'first' and 'front' — the same metaphor we use in English ('head of the line').",
+    stages: [
+      {
+        date: "c. 3500 BCE", name: "Pictograph",
+        desc: "A clear human head in profile — you can see the skull shape, sometimes with an eye or ear indicated.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="2.5" fill="none">
+          <path d="M60,20 Q25,20 25,50 Q25,75 45,80 L55,80 Q65,75 65,65 L75,55 Q80,50 75,45 L65,40 Q65,25 60,20Z"/>
+          <circle cx="42" cy="42" r="3" fill="#d4a853"/>
+          <line x1="35" y1="60" x2="50" y2="60"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 3100 BCE", name: "Proto-cuneiform",
+        desc: "Simplified to a triangular or trapezoidal shape — still recognizable as a head but drawn with quick straight lines.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="3" fill="none" stroke-linecap="round">
+          <path d="M55,18 L28,30 L25,70 L45,82 L65,75 L72,55 L68,30Z"/>
+          <circle cx="42" cy="42" r="3" fill="#d4a853"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2600 BCE", name: "Early Dynastic",
+        desc: "Rotated and angular. The head is now a wedge-based outline — the profile has become geometric.",
+        svg: `<svg viewBox="0 0 100 100"><g fill="#d4a853">
+          <polygon points="25,25 75,20 80,50 75,80 25,75 20,50"/>
+        </g><g stroke="#1a1612" stroke-width="2" fill="none">
+          <polygon points="25,25 75,20 80,50 75,80 25,75 20,50"/>
+          <line x1="40" y1="35" x2="60" y2="35"/>
+          <line x1="40" y1="50" x2="65" y2="50"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2000 BCE", name: "Old Babylonian",
+        desc: "A compact arrangement of wedges — the head is thoroughly abstracted, but its 'first among signs' status endures.",
+        type: "unicode"
+      }
+    ]
+  },
+
+  UD: {
+    char: "\u{12313}", name: "UD", meaning: "sun, day, white, bright",
+    note: "UD is the sun bursting over the horizon. It has more readings than almost any other sign: UD (day), UTU (the sun god), BABBAR (white/bright), TAM/U₄ (storm), and more. This 'polyvalence' — one sign, many readings — is what makes cuneiform challenging and fascinating.",
+    stages: [
+      {
+        date: "c. 3500 BCE", name: "Pictograph",
+        desc: "A sun rising over the horizon — a semicircle with rays streaming upward.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="2.5" fill="none">
+          <line x1="10" y1="65" x2="90" y2="65"/>
+          <path d="M30,65 Q30,35 50,30 Q70,35 70,65" fill="none"/>
+          <line x1="50" y1="28" x2="50" y2="12"/>
+          <line x1="30" y1="38" x2="18" y2="28"/>
+          <line x1="70" y1="38" x2="82" y2="28"/>
+          <line x1="24" y1="55" x2="12" y2="50"/>
+          <line x1="76" y1="55" x2="88" y2="50"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 3100 BCE", name: "Proto-cuneiform",
+        desc: "The semicircle flattens, rays reduce to a few strokes. Still solar, but schematic.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="3.5" fill="none" stroke-linecap="round">
+          <line x1="15" y1="65" x2="85" y2="65"/>
+          <path d="M30,65 L35,40 L50,30 L65,40 L70,65"/>
+          <line x1="50" y1="28" x2="50" y2="15"/>
+          <line x1="32" y1="42" x2="22" y2="32"/>
+          <line x1="68" y1="42" x2="78" y2="32"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2600 BCE", name: "Early Dynastic",
+        desc: "Rotated 90°. The sun becomes a dense cluster of wedges radiating from a corner — brilliance encoded in density.",
+        svg: `<svg viewBox="0 0 100 100"><g fill="#d4a853">
+          <polygon points="20,35 30,40 30,60 20,65"/>
+          <polygon points="20,35 45,30 40,38"/>
+          <polygon points="20,65 45,70 40,62"/>
+          <polygon points="32,40 70,38 68,42"/>
+          <polygon points="32,50 75,48 73,52"/>
+          <polygon points="32,60 70,58 68,62"/>
+          <polygon points="30,45 55,28 52,35"/>
+          <polygon points="30,55 55,72 52,65"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2000 BCE", name: "Old Babylonian",
+        desc: "The canonical form — a wedge-dense sign that stood for the most powerful force in the Mesopotamian sky.",
+        type: "unicode"
+      }
+    ]
+  },
+
+  E2: {
+    char: "\u{1208D}", name: "É", meaning: "house, temple, estate",
+    note: "É shows a building seen from the side or from above — possibly a reed-bundle house of the type still built in the Iraqi marshes. É.GAL ('big house') means palace. É.AN.NA ('House of Heaven') was Inanna's great temple in Uruk — one of the most important buildings in early human civilization.",
+    stages: [
+      {
+        date: "c. 3500 BCE", name: "Pictograph",
+        desc: "A simple house or shelter — a rectangular structure with a pitched roof, seen from the front or above.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="2.5" fill="none">
+          <polygon points="50,15 20,40 20,80 80,80 80,40"/>
+          <rect x="38" y="55" width="24" height="25"/>
+          <line x1="20" y1="40" x2="80" y2="40"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 3100 BCE", name: "Proto-cuneiform",
+        desc: "Simplified to a rectangular frame with an internal division — floor plan becoming diagram.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="3" fill="none" stroke-linecap="round">
+          <rect x="22" y="22" width="56" height="56" rx="3"/>
+          <line x1="22" y1="45" x2="78" y2="45"/>
+          <line x1="42" y1="45" x2="42" y2="78"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2600 BCE", name: "Early Dynastic",
+        desc: "Rotated and wedge-formed. The house plan survives as an angular frame with interior marks.",
+        svg: `<svg viewBox="0 0 100 100"><g fill="#d4a853">
+          <polygon points="20,20 80,20 82,25 22,25"/>
+          <polygon points="20,20 25,20 25,80 20,80"/>
+          <polygon points="20,78 80,78 82,83 22,83"/>
+          <polygon points="20,48 60,48 60,52 20,52"/>
+          <polygon points="42,48 46,48 46,80 42,80"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2000 BCE", name: "Old Babylonian",
+        desc: "The canonical É — still used in compound words for every kind of building across the ancient Near East.",
+        type: "unicode"
+      }
+    ]
+  },
+
+  LUGAL: {
+    char: "\u{12217}", name: "LUGAL", meaning: "king, ruler",
+    note: "LUGAL = LÚ (person) + GAL (great) = 'great person' = king. This compound logic is deeply Sumerian: the title isn't about divine right or bloodline, it's about being the 'big one.' Compare É.GAL (big house = palace) — the same GAL shows up everywhere that greatness matters.",
+    stages: [
+      {
+        date: "c. 3500 BCE", name: "Pictograph",
+        desc: "A large human figure — bigger than the standard 'person' sign, with a wide or emphasized head (crown?).",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="2.5" fill="none">
+          <circle cx="50" cy="22" r="12"/>
+          <polygon points="35,22 50,10 65,22" fill="#d4a853" stroke="none"/>
+          <line x1="50" y1="34" x2="50" y2="68"/>
+          <line x1="30" y1="48" x2="70" y2="48"/>
+          <line x1="50" y1="68" x2="32" y2="90"/>
+          <line x1="50" y1="68" x2="68" y2="90"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 3100 BCE", name: "Proto-cuneiform",
+        desc: "A person-sign with an enlarged or decorated head — the 'greatness' marker beginning to merge with the body.",
+        svg: `<svg viewBox="0 0 100 100"><g stroke="#d4a853" stroke-width="3" fill="none" stroke-linecap="round">
+          <rect x="32" y="12" width="36" height="28" rx="4"/>
+          <line x1="38" y1="16" x2="62" y2="16"/>
+          <line x1="50" y1="40" x2="50" y2="65"/>
+          <line x1="32" y1="52" x2="68" y2="52"/>
+          <line x1="50" y1="65" x2="35" y2="85"/>
+          <line x1="50" y1="65" x2="65" y2="85"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2600 BCE", name: "Early Dynastic",
+        desc: "Rotated and abstracted. The compound origin (big + person) is preserved in the sign's complexity.",
+        svg: `<svg viewBox="0 0 100 100"><g fill="#d4a853">
+          <polygon points="15,20 40,20 42,25 17,25"/>
+          <polygon points="15,20 20,20 20,80 15,80"/>
+          <polygon points="15,78 40,78 42,83 17,83"/>
+          <polygon points="50,30 80,30 82,35 52,35"/>
+          <polygon points="50,30 55,30 55,70 50,70"/>
+          <polygon points="50,68 80,68 82,73 52,73"/>
+        </g></svg>`
+      },
+      {
+        date: "c. 2000 BCE", name: "Old Babylonian",
+        desc: "The canonical LUGAL — a complex, prestigious sign befitting the most important title in Sumer.",
+        type: "unicode"
+      }
+    ]
+  }
+};
+
+const signKeys = Object.keys(SIGNS);
+let currentSign = signKeys[0];
+let animFrame = 0;
+let animInterval = null;
+
+function renderSelector() {
+  const el = document.getElementById('selector');
+  el.innerHTML = signKeys.map(key => {
+    const s = SIGNS[key];
+    return `<button class="sign-btn ${key === currentSign ? 'active' : ''}" onclick="selectSign('${key}')">
+      <span style="font-family:'Noto Sans Cuneiform',serif">${s.char}</span> ${s.name} — ${s.meaning.split(',')[0]}
+    </button>`;
+  }).join('');
+}
+
+function selectSign(key) {
+  currentSign = key;
+  if (animInterval) { clearInterval(animInterval); animInterval = null; }
+  renderSelector();
+  renderSign();
+}
+
+function renderSign() {
+  const s = SIGNS[currentSign];
+  const main = document.getElementById('main');
+
+  const stagesHtml = s.stages.map((st, i) => {
+    let visual;
+    if (st.type === 'unicode') {
+      visual = `<div class="cuneiform-char">${s.char}</div>`;
+    } else {
+      visual = st.svg;
+    }
+    return `<div class="stage">
+      <div class="stage-card">
+        <div class="stage-visual">${visual}</div>
+        <div class="stage-info">
+          <div class="stage-date">${st.date}</div>
+          <div class="stage-name">${st.name}</div>
+          <div class="stage-desc">${st.desc}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // morph strip
+  const stripHtml = s.stages.map((st, i) => {
+    let frame;
+    if (st.type === 'unicode') {
+      frame = `<div class="cuneiform-char">${s.char}</div>`;
+    } else {
+      frame = st.svg;
+    }
+    return (i > 0 ? '<div class="morph-arrow">→</div>' : '') +
+      `<div class="morph-frame">${frame}</div>`;
+  }).join('');
+
+  // morph viewer
+  const morphFrames = s.stages.map((st, i) => {
+    if (st.type === 'unicode') {
+      return `<div class="cuneiform-char ${i === 0 ? 'visible' : 'hidden'}" data-morph="${i}">${s.char}</div>`;
+    } else {
+      return `<div ${i === 0 ? 'class="visible"' : 'class="hidden"'} data-morph="${i}">${st.svg}</div>`;
+    }
+  }).join('');
+
+  main.innerHTML = `
+    <div class="sign-title">
+      <div class="cuneiform">${s.char}</div>
+      <div class="name">${s.name}</div>
+      <div class="meaning">${s.meaning}</div>
+    </div>
+
+    <div class="morph-container">
+      <div class="morph-label">Evolution at a glance</div>
+      <div class="morph-strip">${stripHtml}</div>
+    </div>
+
+    <div class="morph-viewer">
+      <div class="morph-label">Animated evolution</div>
+      <div class="morph-display" id="morphDisplay">${morphFrames}</div>
+      <div class="slider-row">
+        <label>${s.stages[0].date.replace('c. ','')}</label>
+        <input type="range" id="morphSlider" min="0" max="${s.stages.length - 1}" value="0" step="1" oninput="setMorphFrame(this.value)">
+        <label>${s.stages[s.stages.length-1].date.replace('c. ','')}</label>
+      </div>
+      <button class="play-btn" onclick="playAnimation()">▶ Play evolution</button>
+    </div>
+
+    <div class="timeline">${stagesHtml}</div>
+
+    <div class="note"><strong>Note:</strong> ${s.note}</div>
+    <div class="note" style="margin-top:12px"><strong>Caveat:</strong> These pictographic reconstructions are schematic illustrations based on general scholarly understanding of sign evolution. Actual archaic sign forms varied by region and period. For precise paleographic data, consult sources like the CDLI or Labat's <em>Manuel d'Épigraphie Akkadienne</em>.</div>
+  `;
+
+  animFrame = 0;
+}
+
+function setMorphFrame(idx) {
+  idx = parseInt(idx);
+  animFrame = idx;
+  const display = document.getElementById('morphDisplay');
+  if (!display) return;
+  const frames = display.querySelectorAll('[data-morph]');
+  frames.forEach(f => {
+    f.classList.remove('visible', 'hidden');
+    f.classList.add(parseInt(f.dataset.morph) === idx ? 'visible' : 'hidden');
+  });
+}
+
+function playAnimation() {
+  if (animInterval) { clearInterval(animInterval); animInterval = null; }
+  const s = SIGNS[currentSign];
+  const slider = document.getElementById('morphSlider');
+  let frame = 0;
+  setMorphFrame(0);
+  if (slider) slider.value = 0;
+
+  animInterval = setInterval(() => {
+    frame++;
+    if (frame >= s.stages.length) {
+      clearInterval(animInterval);
+      animInterval = null;
+      return;
+    }
+    setMorphFrame(frame);
+    if (slider) slider.value = frame;
+  }, 1200);
+}
+
+// Init
+renderSelector();
+renderSign();
+</script>
+</body>
+</html>
